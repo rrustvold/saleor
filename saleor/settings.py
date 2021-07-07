@@ -531,9 +531,9 @@ CELERY_RESULT_SERIALIZER = "json"
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", None)
 
 CELERY_BEAT_SCHEDULE = {
-    "delete-event-payloads-on-friday-afternoon": {
+    "delete-event-payloads": {
         "task": "core.tasks.delete_event_payloads",
-        "schedule": crontab(hour=16, day_of_week=5),
+        "schedule": crontab(hour=4, day_of_week=6),
     },
 }
 

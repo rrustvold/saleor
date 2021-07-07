@@ -175,8 +175,16 @@ def send_webhook_request(
 ):
     try:
         data = EventPayload.objects.get(id=event_payload_id)
-    except EventPayload.DoesNotExist:
-
+    except EventPayload.DoesNotExist as exc:
+        EventTask.objects.create(
+            task_id=self.request.id,
+            event_payload_id=event_payload_id,
+            status=JobStatus.FAILED,
+            error=str(exc),
+            duration=0,
+            event_type=event_type,
+            webhook_id=webhook_id,
+        )
         task_logger.error(
             "Cannot find payload related to webhook.",
             extra={
